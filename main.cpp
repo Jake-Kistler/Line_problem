@@ -24,30 +24,29 @@ void printPairs(const Pair *pairs, int size)
 // Function to detect pairs where there is a sign change between x1 and x2
 int *xSignChange(const Pair *pairs, int size, int &count)
 {
-    // Dynamically allocate memory for storing the indices of pairs with sign changes
     int *xs = new int[size]; // At most all pairs could have a sign change
     count = 0;               // Initialize count to track how many pairs have sign changes
 
     for (int i = 0; i < size; ++i)
     {
-        // Check if x1 and x2 have different signs
-        if ((pairs[i].x1 < 0 && pairs[i].x2 >= 0) || (pairs[i].x1 >= 0 && pairs[i].x2 < 0))
+        // Check if x1 and x2 have different signs and if at least one is on the positive x-axis side
+        if ((pairs[i].x1 < 0 && pairs[i].x2 > 0))
         {
             xs[count] = i; // Store the index of the pair with a sign change
             count++;
         }
     }
 
-    return xs;
+    return xs; // this in an int array
 }
 
 // Function to calculate the slope (m) and y-intercept (b) from valid pairs
 double calculateYIntercept(const Pair &p, double &m)
 {
-    // Calculate slope (m)
+    // Calculate slope (m): m = (y2-y1)/(x1-x2)
     if (p.x2 - p.x1 != 0)
     {
-        m = static_cast<double>(p.y2 - p.y1) / (p.x2 - p.x1);
+        m = static_cast<double>(p.y2 - p.y1) / (p.x2 - p.x1); // cast to double for the required precision
     }
     else
     {
@@ -98,6 +97,9 @@ int main(int argc, char **argv)
         cin.getline(input, 50);
 
         // Tokenize the input and convert strings to integers using atoi
+        // strtok breaks the string at the space character and returns the pointer to the string up until the split character
+        // using NULL in later calls will continue to use the first string we brought in
+
         char *token = strtok(input, " ");
         pairs[i].x1 = atoi(token);
 
