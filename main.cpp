@@ -51,7 +51,6 @@ double calculateYIntercept(const Pair &p, double &m)
     else
     {
         std::cerr << "Error: Division by zero when calculating slope." << std::endl;
-        m = 0; // Just to avoid undefined behavior, but logically this shouldn't happen.
     }
 
     // Calculate y-intercept (b) using the formula: b = y1 - m * x1
